@@ -10,6 +10,11 @@ app.get('/', function(req, res) {  // get(): Router / get()가 하는 일: Routi
 });
 
 app.get('/dynamic', function(req, res) {
+  var lis = '';
+  for (var i=0; i<5; i++) {
+    lis = lis + '<li>coding</li>';
+  }
+  var time = Date();
   var output = `
   <!DOCTYPE html>
   <html lang="ko">
@@ -21,6 +26,8 @@ app.get('/dynamic', function(req, res) {
   </head>
   <body>
     Hello, Dynamic!
+    <ul>${lis}</ul>
+    ${time}
   </body>
   </html>`;
   res.send(output);
