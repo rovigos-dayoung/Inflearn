@@ -1,0 +1,9 @@
+html
+  head
+    title= title
+  body
+    h1 Hello Pug
+    ul
+      -for(var i=0; i<5; i++)  // pug에서 제공하는 반복문을 사용하기 위해서는 앞에 -를 붙여야 함
+        li coding
+    div= time

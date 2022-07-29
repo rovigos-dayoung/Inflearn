@@ -3,13 +3,21 @@
 var express = require('express');  // express == function
 var app = express();
 
-app.use(express.static('public'));
+app.locals.pretty = true;
+app.set('view engine', 'pug'); /* Template Engine Setting */
+app.set('views', './views');
+
+app.use(express.static('public'));  // 정적 파일 활용
+
+app.get('/template', function(req, res) { /* Template Engine */
+  res.render('temp', {time: Date(), title: 'Pug'});
+});
 
 app.get('/', function(req, res) {  // get(): Router / get()가 하는 일: Routing / Rout: finding ways
   res.send('Hello homepage');
 });
 
-app.get('/dynamic', function(req, res) {
+app.get('/dynamic', function(req, res) {  // 동적 파일 생성
   var lis = '';
   for (var i=0; i<5; i++) {
     lis = lis + '<li>coding</li>';
