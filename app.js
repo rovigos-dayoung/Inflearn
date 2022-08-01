@@ -1,6 +1,7 @@
 /* 코드 반드시 알기! */
 
 var express = require('express');  // express == function
+var bodyParser = require('body-parser');
 var app = express();
 
 app.locals.pretty = true;
@@ -9,8 +10,44 @@ app.set('views', './views');
 
 app.use(express.static('public'));  // 정적 파일 활용
 
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.get('/form', function(req, res) {
+  res.render('form');
+});
+
+app.get('/form_receiver', function(req, res) {  // get 방식
+  var title = req.query.title;
+  var description = req.query.description;
+  res.send(title +  ', ' + description);
+});
+
+app.post('/form_receiver', function(req, res) {
+  var title = req.body.title;
+  var description = req.body.description;
+  res.send(title + ', ' + description);
+});
+
+app.get('/topic/:id', function(req, res) {
+  var topics = [
+    'Javascript is ...',
+    'Nodejs is ...',
+    'Express is ...'
+  ];
+  var output = `
+    <a href="/topic/0">JavaScript</a><br>
+    <a href="/topic/1">Nodejs</a><br>
+    <a href="/topic/2">Express</a><br><br>
+    ${topics[req.params.id]}`
+  res.send(output);
+});
+
+app.get('/topic/:id/:mode', function(req, res) {
+  res.send(req.params.id + ', ' + req.params.mode);
+});
+
 app.get('/template', function(req, res) { /* Template Engine */
-  res.render('temp', {time: Date(), title: 'Pug'});
+  res.render('temp', {title: 'Pug', time: Date()});
 });
 
 app.get('/', function(req, res) {  // get(): Router / get()가 하는 일: Routing / Rout: finding ways
